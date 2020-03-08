@@ -2,8 +2,7 @@
 #####Codepresso Simple SNS project for practice
 
 ![mainpage](./images/cns-boot.JPG)
-![mainpage](images/cns-boot.JPG)
-![mainpage](/images/cns-boot.JPG)
+
 
 ----
 
