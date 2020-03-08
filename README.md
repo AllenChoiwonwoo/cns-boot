@@ -1,7 +1,7 @@
 #cns-boot
 #####Codepresso Simple SNS project for practice
 
-![메인페이지](./images/cns-boot.jpg)
+![mainpage](./images/cns-boot.jpg)
 
 ###제작정보
 codepresso 의 dev-ops 과정을 수강하면 작성한 프로젝트입니다.  
