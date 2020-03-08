@@ -1,16 +1,23 @@
 #cns-boot
 #####Codepresso Simple SNS project for practice
 ![mainpage](./images/cns-boot.JPG)
+#.
+###프로젝트 소개
+트위터 같은 sns 프로젝트 입니다.
 ###제작정보
 codepresso 의 dev-ops 과정을 수강하면 작성한 프로젝트입니다.  
 #####http://codepresso.kr/  
 
+###사용기술
+*springboot
+*MyBatis
+*Freemarker
+
 ###필수조건 안내
-spring boot 프로젝트이기 때문에 java 8 이상이 필요합니다.  
-sts 도 깔려있어야합니다.  
-maven 사용했기에 maven 기본 설정이 되어 있어야합니다.  
-DB로 MySQL 5.7 을 사용했기 때문에 mysql 관련 라이브러리가 지정되어있습니다.(+mybatis)  
-화면구성은 FreeMaker 를 사용하였습니다.  
+*java 8 이상이 필요합니다.  
+*STS 설치권장  
+*Maven 기본설정 
+*MySQL 5.7
 
 ###설치 안내 
 클론을 통해서 받아서 사용하면 됩니다.  
@@ -30,6 +37,8 @@ DB로 MySQL 5.7 을 사용했기 때문에 mysql 관련 라이브러리가 지�
 	# mapper 이하를 로깅 위치로 설정.
 	logging.level.com.hellokoding.springboot.mybatis.mapper=TRACE
 
+###실행방법
+src/main/java/com/codepresso/CnsBootApplication.java 를 Run As Java Application 하면 됩니다.(내장톰캣을 사용)
 ###저작권
 codepresso  
 
