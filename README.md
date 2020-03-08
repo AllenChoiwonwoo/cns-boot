@@ -1,5 +1,12 @@
-# SNS Project (springboot version)
-![main](https://user-images.githubusercontent.com/46583498/75926388-d25ec200-5ead-11ea-9f61-dbf89728f47a.png)
+## cns-boot  
+### Codepresso Simple SNS project for practice  
+
+### 프로젝트 소개
+트위터 같은 sns 프로젝트 입니다.
+### 제작정보
+codepresso 의 dev-ops 과정을 수강하면 작성한 프로젝트입니다.  
+#####http://codepresso.kr/  
+
 
 # 프로젝트 소개
   ***SNS 기능을 구현한 프로젝트입니다.***
