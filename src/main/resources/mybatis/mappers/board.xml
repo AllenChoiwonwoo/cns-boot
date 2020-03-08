@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.board">
+
+<!--user_id 가 아니고 id 이다. 하지만 테이블 데이터를 memberVO에 넣는과정에서 같은 값이 안들어가게 하기 위해서 
+ 	<resultMap id="memResult" type="memberVO">
+		<result property="id" column="user_id" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="created_at" column="created_at" />
+	</resultMap> -->
+	<resultMap id="feedResult" type="feedVO">
+		<result property="user_id" column="follower_id"/>
+		<result property="followee_id" column="followee_id"/>
+		<!-- <result property="post_id" column="follower_id"/> -->
+	</resultMap>
+	<resultMap id="boradResult" type="boardVO">
+		<result property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="createdAt" column="created_at" />
+		<!-- <association property="user" resultMap="userResult2"></association> -->
+	</resultMap>
+	
+	
+	<!-- <resultMap id="tokenResult" type="tokenVO"> <result property="token" 
+		column="token" /> <result property="userId" column="user_id" /> <result property="created_at" 
+		column="created_at" /> </resultMap> -->
+	<!-- <resultMap id="memResult" type="memberVO"> <result property="id" column="id" 
+		/> <result property="username" column="username" /> <result property="password" 
+		column="password" /> <result property="created_at" column="created_at" /> 
+		</resultMap> <resultMap id="tokenResult" type="tokenVO"> <result property="token" 
+		column="token" /> <result property="userId" column="user_id" /> <result property="created_at" 
+		column="created_at" /> </resultMap> -->
+	<!-- <resultMap id="memResult" type="java.util.HashMap"> <result property="id" 
+		column="id" /> <result property="pwd" column="pwd" /> <result property="name" 
+		column="name" /> <result property="email" column="email" /> <result property="joinDate" 
+		column="joinDate" /> </resultMap> -->
+
+
+	<!-- <select id="selectAllMemberList" resultMap="memResult"> <![CDATA[ select 
+		* from t_member order by joinDate desc ]]> </select> -->
+	<!-- <insert id="insertData" parameterType="DataClass" useGeneratedKeys="true" 
+		keyProperty="id"> -->
+
+	<insert id="insertOnePost" parameterType="boardVO"
+		useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+		 insert into post (user_id, title, content)
+		 values( #{userId}, #{title}, #{content})
+		]]>
+		<!-- <selectKey resultType="int" keyProperty="id" order="AFTER"> SELECT 
+			LAST_INSERT_ID() </selectKey> -->
+	</insert>
+	<select id="selectOnePostById" resultMap="boradResult"
+		parameterType="String">
+      <![CDATA[
+         select * from post where id = #{id}	 	
+      ]]>
+	</select>
+	<select id="selectAllPost" resultMap="boradResult">
+      <![CDATA[
+         select * from post	order by id desc
+      ]]>
+	</select>
+	<select id="selectMyAllPost" resultMap="boradResult"
+		parameterType="TokenVO">
+      <![CDATA[
+         select * from post	
+         where user_id = #{userId}
+         order by id desc
+      ]]>
+	</select>
+
+	<delete id="deleteOnePostById" parameterType="Integer">
+	<![CDATA[
+	   delete from post
+	   where
+	   id = #{id}
+	]]>
+	</delete>
+	<update id="updateOnePostById" parameterType="boardVO">
+     <![CDATA[
+	     update post
+	     set id=#{id}, title=#{title}, content=#{content}
+	     where
+	     id=#{id}
+      ]]>
+	</update>
+	<select id="getFollowerIdListById" parameterType="_int" resultMap="feedResult">
+      <![CDATA[
+         select follower_id from follow where followee_id = #{userId}
+      ]]>
+	</select>
+	<insert id="insertFeedData" parameterType="list">
+		<!-- useGeneratedKeys="true" keyProperty="id"> -->
+		<![CDATA[
+		 insert into feed (user_id, followee_id, post_id)
+		 values
+		]]>
+		<foreach collection="list" item="item" separator=" , ">
+			(#{item.user_id}, #{item.followee_id}, #{item.post_id})
+		</foreach>
+		<!-- <selectKey resultType="int" keyProperty="id" order="AFTER"> SELECT 
+			LAST_INSERT_ID() </selectKey> -->
+	</insert>
+	<resultMap id="memberVOwithIsFollowResult" type="memberVOwithIsFollow">
+		<result property="id" column="u.id" />
+        <result property="username" column="u.username" />
+        <result property="password" column="password" />
+        <result property="createdAt" column="u.created_at" />
+        <result property="isFollow" column="isFollow"/>
+	</resultMap>
+	<resultMap type="isfollowBoardVO" id="boardVOwithUser">
+		<result property="id" column="p.id" />
+		<result property="userId" column="p.user_id" />
+		<result property="title" column="p.title" />
+		<result property="content" column="p.content" />
+		<result property="createdAt" column="p.created_at" />
+		<association property="user" resultMap="memberVOwithIsFollowResult">
+			<!-- association 관련 블로그 : https://araikuma.tistory.com/476 -->
+		</association>
+	</resultMap>
+	<select id="selectFolloweesPosts" parameterType="_int" resultMap="boardVOwithUser">
+      <![CDATA[
+         select 
+         p.id as "p.id" , p.user_id as "p.user_id", p.title as "p.title", p.content as "p.content", p.created_at as "p.created_at",
+		 u.id as "u.id" , u.username as "u.username", u.created_at as "u.created_at" 
+			from post as p
+    			inner join user as u
+		    		on p.user_id = u.id
+				inner join feed as f
+		    		on p.id = f.post_id
+		 	where f.user_id = #{userId}
+		 	order by f.created_at desc
+      ]]>
+	</select>
+	<select id="selectAllPostsWithIsFollow" parameterType="_int" resultMap="boardVOwithUser">
+      <![CDATA[
+        select 
+			p.id as "p.id" , p.user_id as "p.user_id", p.title as "p.title", p.content as "p.content", p.created_at as "p.created_at",
+			u.id as "u.id" , u.username as "u.username", u.created_at as "u.created_at" , if(f.user_id = #{userId} , 1, 0 ) as "isFollow" 
+		from post as p
+    		inner join user as u
+		    	on p.user_id = u.id
+			inner join feed as f
+				on p.id = f.post_id
+		order by f.created_at desc
+      ]]>
+	</select>
+	
+
+	<!-- <insert id="insertToken" parameterType="tokenVO"> <![CDATA[ insert 
+		into token (token, user_id) values( #{token}, #{userId}) ]]> </insert> -->
+	<!-- <select id="selectToken" resultType="tokenVO" parameterType="String" 
+		> <![CDATA[ select * from token where user_id = #{userId} ]]> </select> -->
+	<!-- <select id="selectToken" resultType="tokenVO" parameterType="String" 
+		> <![CDATA[ select * from token where EXISTS (select ]]> </select> -->
+
+
+
+	<!-- <update id="updateMember" parameterType="memberVO"> <![CDATA[ update 
+		t_member set pwd=#{pwd}, name=#{name}, email=#{email} where id=#{id} ]]> 
+		</update> <delete id="deleteMember" parameterType="String"> <![CDATA[ delete 
+		from t_member where id=#{id} ]]> </delete> -->
+	<!-- <select id="loginById" resultType="memberVO" parameterType="memberVO" 
+		> <![CDATA[ select * from t_member where id=#{id} and pwd=#{pwd} ]]> </select> -->
+	<!-- <select id="getUserInfo" resultType="memberVO" parameterType="String" 
+		> <![CDATA[ select * from user where id=#{id} ]]> </select> -->
+	<!-- <select id="selectOneUserInfoByUsernamePassword" resultType="memberVO" 
+		parameterType="memberVO" > <![CDATA[ select * from user where username=#{username} 
+		and password= #{password} ]]> </select> -->
+</mapper>

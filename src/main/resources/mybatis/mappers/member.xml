@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.member">
+	<resultMap id="memResult" type="memberVO">
+		<result property="id" column="id" />
+        <result property="username" column="username" />
+        <result property="password" column="password" />
+        <result property="createdAt" column="created_at" />
+	</resultMap> 
+	
+	<resultMap id="tokenResult" type="tokenVO">
+		<result property="token" column="token" />
+        <result property="userId" column="user_id" />
+        <result property="created_at" column="created_at" />
+	</resultMap> 
+	<!-- 
+	<resultMap id="memResult" type="java.util.HashMap">
+      <result property="id" column="id" />
+      <result property="pwd" column="pwd" />
+      <result property="name" column="name" />
+      <result property="email" column="email" />
+      <result property="joinDate" column="joinDate" />
+   </resultMap> -->
+   
+
+
+<!-- 	<select id="selectAllMemberList" resultMap="memResult">
+      <![CDATA[
+         select * from t_member	order by joinDate desc	 	
+      ]]>
+	</select> -->
+  <!--   <insert id="insertData" parameterType="DataClass" useGeneratedKeys="true"   
+
+  keyProperty="id"> -->
+
+  <insert id="insertMember"  parameterType="memberVO" useGeneratedKeys="true"
+  	keyProperty="id">
+		<![CDATA[
+		 insert into user(username, password)
+		 values( #{username}, #{password})
+		]]>
+		<!-- <selectKey resultType="int" keyProperty="id" order="AFTER">
+       		 SELECT LAST_INSERT_ID()
+    	</selectKey> -->
+	</insert>
+	
+	<insert id="insertToken"  parameterType="tokenVO">
+		<![CDATA[
+		 insert into token (token, user_id)
+		 values( #{token}, #{userId})
+		]]>      
+	</insert>
+	<select id="selectToken" resultMap="tokenResult" parameterType="int" >
+	<![CDATA[
+		select * from token	
+		where user_id = #{id}		
+	]]>
+  </select>
+  <select id="selectUserIdByToken"  resultMap="tokenResult"   parameterType="String" >
+	<![CDATA[
+		select * from token	
+		where token=#{token}
+	]]>
+  </select>
+  <insert id="insertFollowInfo"  parameterType="Map" >
+		<![CDATA[
+		 insert into follow(followee_id, follower_id)
+		 values( #{followee}, #{follower})
+		]]>
+		<!-- <selectKey resultType="int" keyProperty="id" order="AFTER">
+       		 SELECT LAST_INSERT_ID()
+    	</selectKey> -->
+	</insert>
+	<delete id="deleteFollowInfo"  parameterType="map">
+	<![CDATA[
+		delete from follow
+		where
+		followee_id = #{followee}
+		and follower_id = #{follower}
+
+	]]>      
+  </delete>
+
+  
+  
+  <!-- <select id="selectToken"  resultType="tokenVO"   parameterType="String" >
+	<![CDATA[
+		select * from token	
+		where EXISTS (select 		
+	]]>
+  </select> -->
+  
+	
+   
+<!--    <update id="updateMember"  parameterType="memberVO">
+     <![CDATA[
+	     update t_member
+	     set pwd=#{pwd}, name=#{name}, email=#{email}
+	     where
+	     id=#{id}
+      ]]>      
+   </update> 
+     
+   <delete id="deleteMember"  parameterType="String">
+	<![CDATA[
+	   delete from  t_member
+	   where
+	   id=#{id}
+	]]>      
+  </delete> -->
+<!--   <select id="loginById"  resultType="memberVO"   parameterType="memberVO" >
+	<![CDATA[
+		select * from t_member	
+		where id=#{id} and pwd=#{pwd}		
+	]]>
+  </select> -->
+  
+  <select id="getUserInfo"  resultType="memberVO"   parameterType="String" >
+	<![CDATA[
+		select * from user
+		where id=#{id}		
+	]]>
+  </select>
+  <select id="selectOneUserInfoByUsernamePassword"  resultType="memberVO"   parameterType="memberVO" >
+	<![CDATA[
+		select * from user	
+		where username=#{username} and password= #{password}	
+	]]>
+  </select>
+</mapper>
