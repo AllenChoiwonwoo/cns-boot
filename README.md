@@ -1,37 +1,34 @@
-###사용기술  
-*springboot
-*MyBatis
-*Freemarker
+# SNS Project (springboot version)
+![main](https://user-images.githubusercontent.com/46583498/75926388-d25ec200-5ead-11ea-9f61-dbf89728f47a.png)
 
-###필수조건 안내
-*java 8 이상이 필요합니다.  
-*STS 설치권장  
-*Maven 기본설정 
-*MySQL 5.7
+# 프로젝트 소개
+  ***SNS 기능을 구현한 프로젝트입니다.***
+  
+# 기능
+  - 회원가입 
+  - 로그인
+  - 글 작성
+  - 글 수정
+  - 글 삭제
+  - 팔로우 버튼
 
-###설치 안내 
-클론을 통해서 받아서 사용하면 됩니다.  
-주의할것은  src/main/resources/application.properies 파일을 보안상의 문제로 git 에는 업로드 하지 않았습니다.  
-그래서 제가 사용한 기본값들을 올리니 사용자에 맞게 작성해 사용하면 됩니다.  
+# 사용 기술
+  -  Spring Boot
+  -  JPA
+  -  FreeMarker
+  
+# 필수 조건 
+ - 자바 설치 (https://www.oracle.com/java/technologies/javase-jdk8-downloads.html)
+ - STS 설치 (Spring boot는 4버전 권장) (https://spring.io/tools)
+ - MySQL, MySQL Workbench 설치 (https://dev.mysql.com/downloads/)
+ - MySQL simpleSns_tables.sql 파일 실행 --> 데이터베이스, 테이블 생성
+ 
+# 실행 방법
+ Boot Dashboard --> local --> simpleSns 우클릭 -- start
 
-    #프리마커 파일(.ftl)의 위치/확장자 지정
-    spring.freemarker.template-loader-path: classpath:/templates/step3
-	spring.freemarker.suffix: .ftl
-    
-    ## DataBase Connection 정보 설정
-	spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver(사용자에 맞게 작성)
-	spring.datasource.url=db-url (전 rds 사용) 
-	spring.datasource.username=사용자
-	spring.datasource.password=비밀번호
-    
-	# mapper 이하를 로깅 위치로 설정.
-	logging.level.com.hellokoding.springboot.mybatis.mapper=TRACE
+# 블로그
+ https://thankstory.tistory.com
+ 
+---
 
-###실행방법
-src/main/java/com/codepresso/CnsBootApplication.java 를 Run As Java Application 하면 됩니다.(내장톰캣을 사용)
-###저작권
-codepresso  
-
-![codepresso log](./images/codepresso-logo.png)
-
-###메인화면
+#### ````이 프로젝트는 CODEPRESSO의 DEV-OPS 과정 중 실습한 프로젝트입니다.````
