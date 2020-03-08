@@ -9,14 +9,14 @@
 codepresso 의 dev-ops 과정을 수강하면 작성한 프로젝트입니다.  
 ##### http://codepresso.kr/  
 ### 사용기술
-*springboot
-*MyBatis
-*Freemarker
+* springboot  
+* MyBatis  
+* Freemarker  
 ### 필수조건 안내
-*java 8 이상이 필요합니다.  
-*STS 설치권장  
-*Maven 기본설정 
-*MySQL 5.7
+* java 8 이상이 필요합니다.  
+* STS 설치권장  
+* Maven 기본설정 
+* MySQL 5.7  
 ### 설치 안내 
 클론을 통해서 받아서 사용하면 됩니다.  
 주의할것은  src/main/resources/application.properies 파일을 보안상의 문제로 git 에는 업로드 하지 않았습니다.  
