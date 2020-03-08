@@ -1,11 +1,3 @@
-##cns-boot  
-###Codepresso Simple SNS project for practice  
-
-###프로젝트 소개
-트위터 같은 sns 프로젝트 입니다.
-###제작정보
-codepresso 의 dev-ops 과정을 수강하면 작성한 프로젝트입니다.  
-#####http://codepresso.kr/  
 
 ###사용기술
 *springboot
