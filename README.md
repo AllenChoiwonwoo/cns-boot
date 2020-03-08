@@ -4,7 +4,7 @@
 ![mainpage](./images/cns-boot.JPG)
 
 
-----
+
 
 ###제작정보
 codepresso 의 dev-ops 과정을 수강하면 작성한 프로젝트입니다.  
