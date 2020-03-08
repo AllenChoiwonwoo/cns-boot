@@ -1,6 +1,6 @@
 #cns-boot
 #####Codepresso Simple SNS project for practice
-![mainpage](./images/cns-boot.png)
+![mainpage](images/cns-boot.png)
 #.
 ###프로젝트 소개
 트위터 같은 sns 프로젝트 입니다.
