@@ -1,6 +1,8 @@
 ## cns-boot  
 ### Codepresso Simple SNS project for practice  
-
+### 메인화면
+![main](./images/cns-boot.png)
+---  
 ### 프로젝트 소개
 트위터 같은 sns 프로젝트 입니다.
 ### 제작정보
@@ -43,5 +45,3 @@ codepresso
 
 ![codepresso log](./images/codepresso-logo.png)
 
-### 메인화면
-![main](./images/cns-boot.png)
