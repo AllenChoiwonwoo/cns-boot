@@ -4,6 +4,13 @@ import java.sql.Date;
 
 import org.springframework.stereotype.Component;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
 @Component("TokenVO")
 public class TokenVO {
 	private String token;
@@ -21,29 +28,29 @@ public class TokenVO {
 		this.created_at = created_at;
 	}
 
-	public String getToken() {
-		return token;
-	}
-	public void setToken(String token) {
-		this.token = token;
-	}
-	public int getUserId() {
-		return userId;
-	}
-	public void setUserId(int user_id) {
-		this.userId = user_id;
-	}
-	public Date getCreated_at() {
-		return created_at;
-	}
-	public void setCreated_at(Date created_at) {
-		this.created_at = created_at;
-	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return " "+token+" , "+userId;
-	}
+//	public String getToken() {
+//		return token;
+//	}
+//	public void setToken(String token) {
+//		this.token = token;
+//	}
+//	public int getUserId() {
+//		return userId;
+//	}
+//	public void setUserId(int user_id) {
+//		this.userId = user_id;
+//	}
+//	public Date getCreated_at() {
+//		return created_at;
+//	}
+//	public void setCreated_at(Date created_at) {
+//		this.created_at = created_at;
+//	}
+//
+//	@Override
+//	public String toString() {
+//		// TODO Auto-generated method stub
+//		return " "+token+" , "+userId;
+//	}
 
 }

@@ -34,7 +34,21 @@ codepresso 의 dev-ops 과정을 수강하면 작성한 프로젝트입니다.
 	# mapper 이하를 로깅 위치로 설정.
 	logging.level.com.hellokoding.springboot.mybatis.mapper=TRACE
 ### 실행방법
-src/main/java/com/codepresso/CnsBootApplication.java 를 Run As Java Application 하면 됩니다.(내장톰캣을 사용)
+* IDE를 통해 실행방법 - src/main/java/com/codepresso/CnsBootApplication.java 를 Run As Java Application 하면 됩니다.(내장톰캣을 사용)  
+* .jar 로 만들어 실행방법  
+   - 프로젝트를 마우스 우클릭 -> Run As -> 5. Maven Build 선택
+   - Goals 에 package 입력
+   - Profiles 에 입력되어 있는 pox.xml 삭제
+   - run 클릭
+   - 빌드가 완료되면 console 에 target dir의 위치가 표시된다.
+   - cmd 를 통해 해당 위치로  접근한다.
+   - java -jar <jar파일명.jar> 실행
+
+    >java -jar cns-boot-0.0.1-SNAPSHOT.jar
+   - 참고 블로그 : https://www.leafcats.com/178
+* 
+    
+
 ### 저작권
 codepresso  
 ![codepresso log](./images/codepresso-logo.png)
