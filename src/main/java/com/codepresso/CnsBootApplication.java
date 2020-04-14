@@ -30,8 +30,8 @@ public class CnsBootApplication {
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);
         
-        Resource[] res = new PathMatchingResourcePatternResolver().getResources("classpath:mybatis/mappers/*.xml");
-        sessionFactory.setMapperLocations(res);
+//        Resource[] res = new PathMatchingResourcePatternResolver().getResources("classpath:mybatis/mappers/*.xml");
+//        sessionFactory.setMapperLocations(res);
         sessionFactory.setConfigLocation(new PathMatchingResourcePatternResolver().getResource("classpath:mybatis/models/modelConfig.xml"));
 
         return sessionFactory.getObject();
