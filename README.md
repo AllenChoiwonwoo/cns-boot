@@ -19,8 +19,10 @@ codepresso 의 dev-ops 과정을 수강하면 작성한 프로젝트입니다.
 * MySQL 5.7  
 ### 설치 안내 
 클론을 통해서 받아서 사용하면 됩니다.  
-주의할것은  src/main/resources/application.properies 파일을 보안상의 문제로 git 에는 업로드 하지 않았습니다.  
+* 주의할것은  src/main/resources/application.properies 파일을 보안상의 문제로 git 에는 업로드 하지 않았습니다. 
+* DB table 생성은 cns-boot_query.sql 에 있는 쿼리문을 통해 하시면 됩니다.
 그래서 제가 사용한 기본값들을 올리니 사용자에 맞게 작성해 사용하면 됩니다.  
+- application.properties
 #프리마커 파일(.ftl)의 위치/확장자 지정
     spring.freemarker.template-loader-path: classpath:/templates/step3
 	spring.freemarker.suffix: .ftl
