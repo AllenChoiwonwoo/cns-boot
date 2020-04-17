@@ -139,13 +139,22 @@ public class BoardController {
 		if(accesstoken == null || accesstoken.equals("undefined")) {
 			System.out.println("Accesstoken2= "+accesstoken2);
 			if(accesstoken2 == null || accesstoken2.equals("undefined")) {
+				restReturnMemberVO.setCode(500);
+				restReturnMemberVO.setMessage("fail");
 				restReturnMemberVO.setData("token 값이 오지 않음");
 				return restReturnMemberVO;
 			}
 			accesstoken = accesstoken2;
 		}
-		result = boardService.deleteOnePostById(id);
-		
+		result = boardService.deleteOnePostById(accesstoken, id);
+		logger.info("deleteOnePostById , result = "+result);
+		if(result == 0) {
+			logger.info("deleteOnePostById, post 삭제 실패");
+			restReturnMemberVO.setCode(500);
+			restReturnMemberVO.setMessage("fail");
+			restReturnMemberVO.setData("삭제 권한이 없는 사용자 입니다.");
+			return restReturnMemberVO;
+		}
 		restReturnMemberVO.setData(result);
 		return restReturnMemberVO;
 	}
@@ -160,17 +169,24 @@ public class BoardController {
 		if(accesstoken == null || accesstoken.equals("undefined")) {
 			System.out.println("Accesstoken2= "+accesstoken2);
 			if(accesstoken2 == null || accesstoken2.equals("undefined")) {
+				restReturnMemberVO.setCode(500);
+				restReturnMemberVO.setMessage("fail");
 				restReturnMemberVO.setData("token 값이 오지 않음");
 				return restReturnMemberVO;
 			}
-			System.out.println("111");
+			
+//			System.out.println("111");
 			accesstoken = accesstoken2;
 		}
-		System.out.println("222");
+//		System.out.println("222");
 		int result = boardService.editOnePostById(accesstoken, boardVO);
 		logger.info("editOnePostById , result = "+result);
 		if(result == 0) {
 			logger.info("editOnePostById, post 수정 실패");
+			restReturnMemberVO.setCode(500);
+			restReturnMemberVO.setMessage("fail");
+			restReturnMemberVO.setData("수정권한이 없는 사용자 입니다.");
+			return restReturnMemberVO;
 		}
 		restReturnMemberVO.setData(result);
 		return restReturnMemberVO;

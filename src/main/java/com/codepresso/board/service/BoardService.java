@@ -106,9 +106,14 @@ public class BoardService {
 	}
 
 
-	public int deleteOnePostById(int id) {
+	public int deleteOnePostById(String accesstoken, int id) {
 		// TODO Auto-generated method stub
-		int result = boardDAO.deleteOnePostById(id);
+		tokenVO = memberDAO.selectUserIdByToken(accesstoken);
+		BoardVO boardVO = new BoardVO();
+		boardVO.setId(id);
+		boardVO.setUserId(tokenVO.getUserId());
+		logger.info("deleteOnePostById, boadvo = "+boardVO);
+		int result = boardDAO.deleteOnePostById(boardVO);
 		return result;
 	}
 

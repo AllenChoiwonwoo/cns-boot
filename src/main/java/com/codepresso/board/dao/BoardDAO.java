@@ -57,8 +57,8 @@ public class BoardDAO {
 		return resultList;
 	}
 
-	public int deleteOnePostById(int id) {
-		int result = sqlSession.delete(mybatisRocation+"deleteOnePostById", id);
+	public int deleteOnePostById(BoardVO boardVO) {
+		int result = sqlSession.delete(mybatisRocation+"deleteOnePostById", boardVO);
 		return result;
 	}
 

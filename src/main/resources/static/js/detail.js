@@ -1,9 +1,19 @@
 $(document).ready(function(){
+	
+	var token;
+	if(document.cookie.includes("accesstoken")) {
+		
+		token = document.cookie.split('token=')[1];
+	}
+
 	var postId = $('#detail_post_id').attr("value");
 	postId = postId.replace(/,/g, "");
 	console.log("postId - " + postId);
 	
 	$.ajax({
+		beforeSend: function(xhr){
+			xhr.setRequestHeader('accesstoken', token);
+        },
         url: "/post/" + postId
     }).then(function(data) {
        console.log(data);
@@ -21,11 +31,21 @@ $(document).ready(function(){
 		postId = postId.replace(/,/g, "");
 		console.log("delete button click! - " + postId);
 		$.ajax({
+			beforeSend: function(xhr){
+			xhr.setRequestHeader('accesstoken', token);
+        },
 	        url: "/post/"+postId,
 	        method: "DELETE"
 	    }).then(function(data) {
-	    	window.location.href = '/';
+			console.log("ok ", data);
+			if(data.code >= 500){
+				alert(data.data);
+			}else{
+				window.location.href = '/';
+			}
+	    	
 	    }, function(err) {
+			console.log(data);
 	    	alert(err.responseJSON);
 	    });
 	});
@@ -46,14 +66,23 @@ $(document).ready(function(){
 		}
 		
 		$.ajax({
+			beforeSend: function(xhr){
+			xhr.setRequestHeader('accesstoken', token);
+        },
 	        url: "/post",
 	        method: "PUT",
 	        dataType: 'json',
             contentType: 'application/json',
             data: JSON.stringify(param)
 	    }).then(function(data) {
-	    	window.location.href = '/page/detail/'+postId;
+			console.log("success ",data);
+	    	if(data.code >= 500){
+				alert(data.data);
+			}else{
+				window.location.href = '/';
+			}
 	    }, function(err) {
+			console.log("error ",data);
 	    	alert(err.responseJSON);
 	    });
 	});
@@ -74,14 +103,19 @@ $(document).ready(function(){
 		}
 		
 		$.ajax({
+			beforeSend: function(xhr){
+			xhr.setRequestHeader('accesstoken', token);
+        },
 	        url: "/comment",
 	        method: "POST",
 	        dataType: 'json',
             contentType: 'application/json',
             data: JSON.stringify(param)
 	    }).then(function(data) {
-	    	window.location.href = '/page/detail/'+postId;
+			console.log("success ",data);
+	    	window.location.href = '/post/detail/'+postId;
 	    }, function(err) {
+			console.log("error ",data);
 	    	alert(err.responseJSON);
 	    });
 	});

@@ -76,11 +76,11 @@
       ]]>
 	</select>
 
-	<delete id="deleteOnePostById" parameterType="Integer">
+	<delete id="deleteOnePostById" parameterType="boardVO">
 	<![CDATA[
 	   delete from post
 	   where
-	   id = #{id}
+	   id = #{id} and user_id=#{userId}
 	]]>
 	</delete>
 	<update id="updateOnePostById" parameterType="boardVO">
@@ -88,7 +88,7 @@
 	     update post
 	     set id=#{id}, title=#{title}, content=#{content}
 	     where
-	     id=#{id}
+	     id=#{id} and user_id=#{userId}
       ]]>
 	</update>
 	<select id="getFollowerIdListById" parameterType="_int" resultMap="feedResult">

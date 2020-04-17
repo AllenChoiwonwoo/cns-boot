@@ -29,7 +29,7 @@ body {
 </head>
 
 <body>
-	<#include"header.ftl">
+	<#include "header.ftl">
 
 	<div class="container">
 
@@ -87,7 +87,7 @@ body {
 
 	</div>
 
-	<#include"footer.ftl">
+	<#include "footer.ftl">
 
 	<div class="modal fade" id="modify_post_modal" tabindex="-1"
 		role="dialog" aria-labelledby="exampleModalCenterTitle"
