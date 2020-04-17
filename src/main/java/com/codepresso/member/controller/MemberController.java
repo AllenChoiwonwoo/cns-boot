@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codepresso.member.service.MemberService;
+import com.codepresso.member.vo.FollowVO;
 import com.codepresso.member.vo.MemberVO;
 import com.codepresso.member.vo.RestReturnMemberVO;
 import com.codepresso.member.vo.RestReturnTokenVO;
@@ -58,7 +60,7 @@ public class MemberController {
 			membervo.setPassword(null);
 			restReturnMemberVO.setCode(500);
 			restReturnMemberVO.setMessage("error");
-			restReturnMemberVO.setData("");
+			restReturnMemberVO.setData("중복된 이메일 입니다");
 		}
 		membervo.setPassword(null);
 		restReturnMemberVO.setCode(200);
@@ -71,12 +73,20 @@ public class MemberController {
 	@RequestMapping(value = "/user", method = RequestMethod.GET)
 	public RestReturnMemberVO selectUserInfo(
 //			@RequestBody TokenVO2 tokenvo2,
-			@RequestHeader(value="accesstoken", required = false) String accesstoken,
-//			@CookieValue(value="accesstoken", required = false) String accesstoken,
+			@RequestHeader(value="accesstoken", required = false) String accesstoken2,
+			@CookieValue(value="accesstoken", required = false) String accesstoken,
 			@RequestParam("id") String id,
 //			@Request
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+		
+		if(accesstoken == null || accesstoken.equals("undefined")) {
+			System.out.println("Accesstoken2= "+accesstoken2);
+			if(accesstoken2 == null || accesstoken2.equals("undefined")) {
+				restReturnMemberVO.setData("token 값이 오지 않음");
+				return restReturnMemberVO;
+			}
+			accesstoken = accesstoken2;
+		}
 		logger.info(" user - get. selectUserInfo 메서도 호출 됨 ");
 //		String id = request.getParameter("id");
 //		Long long_id = Long.parseUnsignedLong(id);
@@ -120,11 +130,19 @@ public class MemberController {
 	
 	@RequestMapping(value = "/follow", method = RequestMethod.POST)
 	public RestReturnMemberVO dofollow(
-			@RequestHeader(value="accesstoken")
-			String accesstoken,
+			@RequestHeader(value="accesstoken", required = false) String accesstoken2,
+			@CookieValue(value="accesstoken", required = false) String accesstoken,
 			@RequestBody Map<String,Integer> requestMap)
 //			@RequestBody("followeeId") int followeeId) 
 	{		
+		if(accesstoken == null || accesstoken.equals("undefined")) {
+			System.out.println("Accesstoken2= "+accesstoken2);
+			if(accesstoken2 == null || accesstoken2.equals("undefined")) {
+				restReturnMemberVO.setData("token 값이 오지 않음");
+				return restReturnMemberVO;
+			}
+			accesstoken = accesstoken2;
+		}
 			int followee_id = requestMap.get("followeeId");
 			logger.info(" doFollow - 호출됨, followee_id = "+followee_id);
 			
@@ -143,9 +161,19 @@ public class MemberController {
 	
 	@RequestMapping(value = "/follow", method = RequestMethod.DELETE)
 	public RestReturnMemberVO undofollow(
-			@RequestHeader(value="accesstoken")
-			String accesstoken,
+			@RequestHeader(value="accesstoken", required = false) String accesstoken2,
+			@CookieValue(value="accesstoken", required = false) String accesstoken,
+//			@RequestBody FollowVO followvo) {
 			@RequestBody Map<String,Integer> requestMap) {
+		if(accesstoken == null || accesstoken.equals("undefined")) {
+			System.out.println("Accesstoken2= "+accesstoken2);
+			if(accesstoken2 == null || accesstoken2.equals("undefined")) {
+				restReturnMemberVO.setData("token 값이 오지 않음");
+				return restReturnMemberVO;
+			}
+			accesstoken = accesstoken2;
+		}
+	
 			
 			// 여기에 이제 feed, follow 테이블에 데이터를 저장할 수 있는 메서드를 만들어야한다.
 		/* ㅣ
@@ -154,6 +182,7 @@ public class MemberController {
 		 * 2. follow 테이블에서 followee_id, followr_id 를 조건으로 넣어 해당 row 삭제 
 		 * 3. 잘 되면 succes return
 		 * 4. */
+			logger.info("undo follow, accesstoken = "+accesstoken);
 			int followee_id = requestMap.get("followeeId");
 			logger.info(" undoFollow - 호출됨, followee_id = "+followee_id);
 			int result = memberService.undoFollow(accesstoken,followee_id);

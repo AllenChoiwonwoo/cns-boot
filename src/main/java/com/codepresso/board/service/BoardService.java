@@ -113,8 +113,12 @@ public class BoardService {
 	}
 
 
-	public int editOnePostById(BoardVO boardVO2) {
+	public int editOnePostById(String accesstoken, BoardVO boardVO2) {
 		// TODO Auto-generated method stub
+		tokenVO = memberDAO.selectUserIdByToken(accesstoken);
+		
+		boardVO2.setUserId(tokenVO.getUserId());
+		logger.info(" editOneposbyId, boardVO2 = "+boardVO2.toString());
 		return boardDAO.updateOnePostById(boardVO2);
 	}
 
@@ -122,6 +126,7 @@ public class BoardService {
 	public List<IsfollowBoardVO> getMyFeeds(String accesstoken) {
 		// TODO Auto-generated method stub
 		tokenVO = memberDAO.selectUserIdByToken(accesstoken);
+		logger.info("tokenvo = +"+tokenVO);
 		logger.info("getMyFeeds , userId = "+tokenVO.getUserId());
 		List<IsfollowBoardVO> resultList = boardDAO.selectFolloweesPosts(tokenVO.getUserId());//내가 팔로우 하는사람 글 가져오기
 		

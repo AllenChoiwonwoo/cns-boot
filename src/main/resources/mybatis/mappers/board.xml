@@ -143,6 +143,19 @@
       <![CDATA[
         select 
 			p.id as "p.id" , p.user_id as "p.user_id", p.title as "p.title", p.content as "p.content", p.created_at as "p.created_at",
+			u.id as "u.id" , u.username as "u.username", u.created_at as "u.created_at" , if(
+            (select follower_id from cns.follow where followee_id = p.user_id and follower_id = #{userId} ) = #{userId}
+            , 1, 0 ) as "isFollow" 
+		from post as p
+    		inner join user as u
+		    	on p.user_id = u.id
+		order by p.created_at desc;
+      ]]>
+	</select>
+	<!--original <select id="selectAllPostsWithIsFollow" parameterType="_int" resultMap="boardVOwithUser">
+      <![CDATA[
+        select 
+			p.id as "p.id" , p.user_id as "p.user_id", p.title as "p.title", p.content as "p.content", p.created_at as "p.created_at",
 			u.id as "u.id" , u.username as "u.username", u.created_at as "u.created_at" , if(f.user_id = #{userId} , 1, 0 ) as "isFollow" 
 		from post as p
     		inner join user as u
@@ -151,7 +164,7 @@
 				on p.id = f.post_id
 		order by f.created_at desc
       ]]>
-	</select>
+	</select> -->
 	
 
 	<!-- <insert id="insertToken" parameterType="tokenVO"> <![CDATA[ insert 

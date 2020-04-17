@@ -5,12 +5,14 @@ import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.io.Resource;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.http.HttpMethod;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 //@MapperScan(basePackages = {"com.codepresso.board.vo.* , com.codepresso.member.vo.*"})
@@ -42,4 +44,20 @@ public class CnsBootApplication {
         
         return new SqlSessionTemplate(sqlSessionFactory);
     }
+    
+	@Configuration
+	public class WebConfig implements WebMvcConfigurer{
+		
+		@Override
+		public void addCorsMappings(CorsRegistry registry) {
+			registry.addMapping("/**")
+				.allowedOrigins("http://localhost:8081","http://localhost:8080")
+				.allowedMethods(
+						HttpMethod.GET.name(),
+						HttpMethod.POST.name(),
+						HttpMethod.PUT.name(),
+						HttpMethod.DELETE.name()
+						);
+		}
+	}
 }

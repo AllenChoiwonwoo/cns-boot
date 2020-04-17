@@ -70,8 +70,9 @@ public class MemberDAO {
 	}
 
 	public TokenVO selectUserIdByToken(String accessToken) {
-
+		logger.info("Accesstoken = "+accessToken);
 		myTokenVO = sqlSession.selectOne("mapper.member.selectUserIdByToken", accessToken);
+		logger.info("selectUserIdByToken : "+myTokenVO);
 		return myTokenVO;
 	}
 

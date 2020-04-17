@@ -2,7 +2,8 @@ $(document).ready(function(){
 	
 	var token;
 	if(document.cookie.includes("accesstoken")) {
-		token = document.cookie.split('token=')[1];	
+		
+		token = document.cookie.split('token=')[1];
 	}
 	
 	$.ajax({

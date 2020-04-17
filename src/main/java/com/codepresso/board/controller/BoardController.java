@@ -48,13 +48,23 @@ public class BoardController {
 		public RestReturnMemberVO writePost(
 				@RequestBody BoardVO boardVO,
 				@CookieValue(value="accesstoken", required = false) String accesstoken,
+				@RequestHeader(value="accesstoken", required=false) String accesstoken2,
 				HttpServletRequest request, HttpServletResponse response) {
 		logger.info("boardVO = "+boardVO);
+		logger.info("getAllPost" + accesstoken2);
 		//1.토큰을 받아온다.
 //		String accessToken = request.getHeader("accesstoken");
 		logger.info("accessToken = "+accesstoken);
 //		System.out.println("accessToken = "+accessToken);
 		//2. 토큰과 매칭되는 아이디를 받아온다.
+		if(accesstoken == null || accesstoken.equals("undefined")) {
+			System.out.println("Accesstoken2= "+accesstoken2);
+			if(accesstoken2 == null || accesstoken2.equals("undefined")) {
+				restReturnMemberVO.setData("token 값이 오지 않음");
+				return restReturnMemberVO;
+			}
+			accesstoken = accesstoken2;
+		}
 		
 		
 		boardVO = boardService.addNewPost(accesstoken, boardVO);
@@ -73,16 +83,25 @@ public class BoardController {
 	@RequestMapping(value = "/post", method=RequestMethod.GET)
 	public RestReturnMemberVO getAllPost(
 //			@RequestBody BoardVO boardVO,
-			@CookieValue(value="accesstoken", required = false) String accesstoken,
+			@CookieValue(value="accesstoken", required = false) String accesstoken,// 이걸로 하면 안온다.
+			@RequestHeader(value="accesstoken", required=false) String accesstoken2,
 			HttpServletRequest request, HttpServletResponse response) {
-		logger.info("getAllPost");
+		logger.info("getAllPost" + accesstoken);
+		logger.info("getAllPost" + accesstoken2);
+//		System.out.println("request cookies = "+request.getCookies()[0].getValue());
+		
 		/***
 		 * 1. 요청을 받는다.
 		 * 2. 데이터베이스 에서 모든 글들을 id의 내림차순으로 가져온다.
 		 * 3. 화면에 뿌려준다.
 		 */
 //		만약 토큰이 함께 온다면 , 새로 만든 메서드로 해서 isfollow 를 넣어 보내주도록한다.
-		if(accesstoken == null) {
+		
+		if(accesstoken == null || accesstoken.equals("undefined")) {
+			System.out.println("Accesstoken2= "+accesstoken2);
+			accesstoken = accesstoken2;
+		}
+		if(accesstoken == null || accesstoken.equals("undefined")) {
 			logger.info("getAllPost #@@- 토큰이 같이 호지 않았다.");
 		}else {
 			logger.info("getAllPost ###- 토큰이 왔다.");
@@ -113,9 +132,19 @@ public class BoardController {
 	@RequestMapping(value = "/post/{id}", method=RequestMethod.DELETE)
 	public RestReturnMemberVO deleteOnePostById(
 			@PathVariable("id") int id,
+			@CookieValue(value="accesstoken", required = false) String accesstoken,// 이걸로 하면 안온다.
+			@RequestHeader(value="accesstoken", required=false) String accesstoken2,
 			HttpServletRequest request, HttpServletResponse response) {
-			
-		int result = boardService.deleteOnePostById(id);
+		int result = 0;
+		if(accesstoken == null || accesstoken.equals("undefined")) {
+			System.out.println("Accesstoken2= "+accesstoken2);
+			if(accesstoken2 == null || accesstoken2.equals("undefined")) {
+				restReturnMemberVO.setData("token 값이 오지 않음");
+				return restReturnMemberVO;
+			}
+			accesstoken = accesstoken2;
+		}
+		result = boardService.deleteOnePostById(id);
 		
 		restReturnMemberVO.setData(result);
 		return restReturnMemberVO;
@@ -124,9 +153,25 @@ public class BoardController {
 	@RequestMapping(value = "/post", method=RequestMethod.PUT)
 	public RestReturnMemberVO editOnePostById(
 			@RequestBody BoardVO boardVO,
+			@CookieValue(value="accesstoken", required = false) String accesstoken,
+			@RequestHeader(value="accesstoken", required=false) String accesstoken2,
 			HttpServletRequest request, HttpServletResponse response) {
-		logger.info("/post, put 호출됨 " );
-		int result = boardService.editOnePostById(boardVO);
+		logger.info("/post, put 호출됨 " +boardVO.toString());
+		if(accesstoken == null || accesstoken.equals("undefined")) {
+			System.out.println("Accesstoken2= "+accesstoken2);
+			if(accesstoken2 == null || accesstoken2.equals("undefined")) {
+				restReturnMemberVO.setData("token 값이 오지 않음");
+				return restReturnMemberVO;
+			}
+			System.out.println("111");
+			accesstoken = accesstoken2;
+		}
+		System.out.println("222");
+		int result = boardService.editOnePostById(accesstoken, boardVO);
+		logger.info("editOnePostById , result = "+result);
+		if(result == 0) {
+			logger.info("editOnePostById, post 수정 실패");
+		}
 		restReturnMemberVO.setData(result);
 		return restReturnMemberVO;
 	}
@@ -135,8 +180,17 @@ public class BoardController {
 	@RequestMapping(value = "/post/my", method=RequestMethod.GET)
 	public RestReturnMemberVO getMyAllPost(
 			@CookieValue(value="accesstoken", required = false) String accesstoken,
+			@RequestHeader(value="accesstoken", required=false) String accesstoken2,
 			HttpServletRequest request, HttpServletResponse response) {
 			logger.info("getMyAllPost");
+			if(accesstoken == null || accesstoken.equals("undefined")) {
+				System.out.println("Accesstoken2= "+accesstoken2);
+				if(accesstoken2 == null || accesstoken2.equals("undefined")) {
+					restReturnMemberVO.setData("token 값이 오지 않음");
+					return restReturnMemberVO;
+				}
+				accesstoken = accesstoken2;
+			}
 			
 //			String accessToken = request.getHeader("accesstoken");
 			logger.info("accessToken = "+accesstoken);
@@ -150,10 +204,19 @@ public class BoardController {
 	// Feed(내가 쓴글 + 내가 follow 하는 사용자 글 ) 조회
 	@RequestMapping(value = "/post/feed", method = RequestMethod.GET)
 	public RestReturnMemberVO getMyFeeds(
-			@RequestHeader(value="accesstoken", required = false) String accesstoken
+			@RequestHeader(value="accesstoken", required = false) String accesstoken,
+			@RequestHeader(value="accesstoken", required=false) String accesstoken2
 //			,@RequestParam("followeeId") int followeeId
-			) 
-	{	logger.info( "get my feeds ");
+			) {	
+		logger.info( "get my feeds ");
+		if(accesstoken == null || accesstoken.equals("undefined")) {
+			System.out.println("Accesstoken2= "+accesstoken2);
+			if(accesstoken2 == null || accesstoken2.equals("undefined")) {
+				restReturnMemberVO.setData("token 값이 오지 않음");
+				return restReturnMemberVO;
+			}
+			accesstoken = accesstoken2;
+		}
 		/*- 내가 글을 쓰면 나를 팔로우 하고 있는 사람들의 feed 정보를 feed 테이블에 넣어주면 됨
 		 - 나의 글은 default로 feed에 입력 됨 --> 내 자신을 팔로우 하고 있다고 가정
 		 - 팔로우 하는 시점 부터 feed에 정보 입력
@@ -175,6 +238,7 @@ public class BoardController {
 //			if(accesstoken != null) { // 로그인 하고 로그인하면.
 //				boardService.get
 //			}
+			logger.info("Getmyfeeds - token ="+accesstoken);
 			List<IsfollowBoardVO> myFeedBVOs = boardService.getMyFeeds(accesstoken);//내가 팔로우 하는사람 글 가져오기
 		
 		

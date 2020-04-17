@@ -40,7 +40,7 @@ public class BoardDAO {
 	public BoardVO selectOnePostById(int id) {
 		// TODO Auto-generated method stub
 		logger.info("id = "+id);
-		boardVO = sqlSession.selectOne(mybatisRocation+"selectOnePostById", id); // db 의 col 과 데이터 객체의 이름이 다르다.
+		boardVO = sqlSession.selectOne(mybatisRocation+"selectOnePostById", (id+"")); // db 의 col 과 데이터 객체의 이름이 다르다.
 		logger.info("boardVO = "+boardVO);
 		
 		return boardVO;
@@ -63,6 +63,7 @@ public class BoardDAO {
 	}
 
 	public int updateOnePostById(BoardVO boardVO2) {
+//		boardVO2.getUserId()
 		return sqlSession.update(mybatisRocation+"updateOnePostById", boardVO2);
 	}
 

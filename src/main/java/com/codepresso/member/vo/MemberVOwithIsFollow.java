@@ -58,13 +58,13 @@ public class MemberVOwithIsFollow {
 //		this.createdAt = date;
 //	}
 //
-//	public boolean getIsFollow() {
-//		return isFollow;
-//	}
-//
-//	public void setIsFollow(boolean isFollow) {
-//		this.isFollow = isFollow;
-//	}
+	public boolean getIsFollow() {
+		return isFollow;
+	}
+
+	public void setIsFollow(boolean isFollow) {
+		this.isFollow = isFollow;
+	}
 //	
 	
 

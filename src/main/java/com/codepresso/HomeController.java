@@ -114,7 +114,7 @@ public class HomeController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/page/detail/{id}", method=RequestMethod.GET)
+	@RequestMapping(value = "/post/detail/{id}", method=RequestMethod.GET)
 	public ModelAndView getOnePostById(
 			@PathVariable("id") int id,
 			HttpServletRequest request, HttpServletResponse response) {

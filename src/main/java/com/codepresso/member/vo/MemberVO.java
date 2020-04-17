@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Getter;
@@ -25,6 +26,8 @@ public class MemberVO {
 	private Date createdAt=null;
 //	@JsonInclude(JsonInclude.Include.)
 //	private boolean isFollow;
+	@JsonIgnore
+	private String message;
 	
 	
 //	

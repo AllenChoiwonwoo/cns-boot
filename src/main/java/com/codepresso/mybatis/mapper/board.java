@@ -1,12 +1,5 @@
 package com.codepresso.mybatis.mapper;
 
-import java.util.List;
-
-import org.springframework.stereotype.Repository;
-
-import com.codepresso.board.vo.BoardVO;
-import com.codepresso.board.vo.FeedVO;
-
 //@Repository
 public interface board {
 //	// select
